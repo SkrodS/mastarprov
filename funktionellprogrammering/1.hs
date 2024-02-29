@@ -1,2 +1,6 @@
-prefixSums :: Num a => [a] -> [a]
-prefixSums = tail . scanl (+) 0
+import Data.Char (toUpper)
+
+initials :: [String] -> [String]
+initials = map (map (toUpper . head) . words . concat . map replaceHyphenWithSpace)
+    where replaceHyphenWithSpace '-' = " "
+          replaceHyphenWithSpace c = [c]

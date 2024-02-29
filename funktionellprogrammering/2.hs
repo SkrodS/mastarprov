@@ -1,14 +1,14 @@
-module Main where
+import Data.List (delete)
 
-import Data.Char (toUpper)
-
-initials :: [String] -> [String]
-initials = map (map (toUpper . head) . words . concat . map replaceHyphenWithSpace)
-    where replaceHyphenWithSpace '-' = " "
-          replaceHyphenWithSpace c = [c]
-
-main :: IO()
-main = do
-    print $ initials ["Alice","Bob","Charlie"] -- should return ["A","B","C"]
-    print $ initials ["Anna-Lena","Tonima Afroze ","Carl-Erik"] -- should return ["AL","TA","CE"]
-    print $ initials ["eLAK iNDATA","mer--- -- ---krånglig---- - -   -    -        indata","","-- -- - --  --- -- "] -- should return ["EI","MKI","",""]
+targetSumPairs :: [Int] -> Int -> ([(Int, Int)], [Int])
+targetSumPairs nums target = findPairs nums [] target
+    where
+        findPairs :: [Int] -> [(Int, Int)] -> Int -> ([(Int, Int)], [Int])
+        findPairs [] pairs _ = (pairs, [])
+        findPairs (x:xs) pairs t =
+            let complement = t - x in
+                if complement `elem` xs then
+                    findPairs (delete complement xs) ((x, complement) : pairs) t
+                else 
+                    let (foundPairs, unmatched) = findPairs xs pairs t in
+                        (foundPairs, x : unmatched)
