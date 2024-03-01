@@ -12,3 +12,8 @@ targetSumPairs nums target = findPairs nums [] target
                 else 
                     let (foundPairs, unmatched) = findPairs xs pairs t in
                         (foundPairs, x : unmatched)
+
+main :: IO()
+main = do
+    print $ targetSumPairs [1, 2, 3, 4, 5] 5
+    print $ targetSumPairs [1, 2, 3, 4, 5] 6
